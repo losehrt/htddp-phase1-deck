@@ -1,0 +1,1153 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>健康台灣深耕計畫 範疇三 第一階段成果</title>
+<style>
+/* 夜間版：暗室投影用 */
+:root{
+  /* 字級基準單位。以 929px 高為 1 倍，投影時隨畫面高度等比縮放，
+     視窗寬度變化完全不影響字級大小。 */
+  --u:calc(100vh / 929);
+}
+/* 畫面比例窄於 16:10 時改以寬度為基準，避免文字換行過多而溢出。
+   16:9 與 16:10 等常見投影比例不受影響，字級仍不隨寬度變化。 */
+@media (max-aspect-ratio:8/5){ :root{ --u:calc(100vw / 1400) } }
+/* 手機改以寬度為基準，因為手機受限的是寬度不是高度 */
+@media (max-width:820px){ :root{ --u:calc(100vw / 1150) } }
+@media (max-width:560px){ :root{ --u:calc(100vw / 980) } }
+
+:root,
+:root[data-theme="night"]{
+  --bg:#0a0e14;
+  --panel:#121822;
+  --panel2:#0f1620;
+  --hover:#16202c;
+  --line:#1f2937;
+  --fg:#e6edf3;
+  --dim:#8b96a5;
+  --muted:#4a5568;
+  --accent:#4dd4c0;
+  --accent-dim:#2a7f74;
+  --warn:#f0b429;
+  --danger:#e05252;
+  --tint-strong:rgba(240,180,41,.16);
+  --tint-mid:rgba(240,180,41,.10);
+  --tint-soft:rgba(240,180,41,.07);
+}
+
+/* 日間版：明亮會議室投影用 */
+:root[data-theme="day"]{
+  --bg:#ffffff;
+  --panel:#f1f5f9;
+  --panel2:#eef2f7;
+  --hover:#e2e8f0;
+  --line:#cbd5e1;
+  --fg:#0f172a;
+  --dim:#475569;
+  --muted:#64748b;
+  --accent:#0f766e;
+  --accent-dim:#5eead4;
+  --warn:#b45309;
+  --danger:#b91c1c;
+  --tint-strong:rgba(180,83,9,.13);
+  --tint-mid:rgba(180,83,9,.09);
+  --tint-soft:rgba(180,83,9,.06);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;background:var(--bg);color:var(--fg);overflow:hidden}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC","Microsoft JhengHei","Heiti TC",sans-serif;
+  -webkit-font-smoothing:antialiased;
+  line-height:1.6;
+}
+.slide{
+  display:none;
+  position:absolute;inset:0;
+  /* 底部留白需容納固定頁尾，避免內容壓到院徽 */
+  padding:3.4vh 6vw 5.7vh;
+  flex-direction:column;
+  justify-content:flex-start;
+}
+.slide.on{display:flex}
+
+/* 頁首 */
+.eyebrow{
+  font-size:calc(22 * var(--u));
+  letter-spacing:.22em;
+  color:var(--accent);
+  font-weight:600;
+  margin-bottom:1.6vh;
+}
+h1{
+  font-size:calc(76 * var(--u));
+  font-weight:800;
+  letter-spacing:-.02em;
+  line-height:1.18;
+}
+h2{
+  font-size:calc(54 * var(--u));
+  font-weight:750;
+  letter-spacing:-.01em;
+  line-height:1.25;
+}
+.sub{
+  font-size:calc(28 * var(--u));
+  color:var(--dim);
+  margin-top:1.6vh;
+}
+
+/* 封面 */
+.cover{text-align:left}
+.cover h1{font-size:calc(96 * var(--u))}
+.cover .org{
+  font-size:calc(34 * var(--u));
+  color:var(--dim);margin-top:1.9vh;
+}
+.cover .lede{
+  font-size:calc(35 * var(--u));
+  color:var(--fg);margin-top:3vh;
+  padding-left:1.1em;border-left:4px solid var(--accent);
+}
+.cover .meta{
+  position:absolute;left:7vw;bottom:8vh;
+  font-size:calc(22 * var(--u));color:var(--dim);
+  display:flex;gap:2.5em;flex-wrap:wrap;
+}
+
+/* 快速層：主張 + 憑據 + 連結 */
+.claim{
+  font-size:calc(52 * var(--u));
+  font-weight:700;line-height:1.35;
+  margin:2.3vh 0 .6vh;max-width:22em;
+}
+.evidence{
+  margin-top:2.7vh;
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-left:4px solid var(--accent);
+  border-radius:10px;
+  padding:2vh 1.9vw;
+}
+.evidence .label{
+  font-size:calc(19 * var(--u));
+  letter-spacing:.16em;color:var(--accent);
+  font-weight:650;margin-bottom:1.1vh;
+}
+.evidence .body{font-size:calc(29 * var(--u));line-height:1.65}
+
+/* 說明段落逐句斷行，一句一行，句末不再與下一句擠在同一行 */
+.sent{display:block}
+.sent + .sent{margin-top:.4em}
+.figure{
+  font-size:calc(74 * var(--u));
+  font-weight:800;color:var(--accent);
+  letter-spacing:-.02em;line-height:1.1;
+}
+.figure .unit{font-size:.44em;font-weight:600;color:var(--dim);margin-left:.3em}
+
+/* 連結列 */
+.linkrow{
+  margin-top:2.4vh;display:flex;align-items:center;
+  gap:.9em;flex-wrap:wrap;
+  font-size:calc(26 * var(--u));
+}
+a.demo{
+  color:var(--accent);text-decoration:none;
+  border-bottom:2px solid var(--accent-dim);
+  padding-bottom:2px;word-break:break-all;
+}
+a.demo:hover{border-bottom-color:var(--accent)}
+.nolink{color:var(--dim);word-break:break-all}
+
+/* 連結狀態標籤 */
+.badge{
+  display:inline-block;
+  font-size:calc(18 * var(--u));
+  font-weight:650;letter-spacing:.05em;
+  padding:.28em .85em;border-radius:999px;
+  border:1px solid currentColor;white-space:nowrap;
+}
+.b-open{color:var(--accent)}
+.b-auth{color:var(--warn)}
+.b-lan{color:var(--dim)}
+.b-pending{color:var(--danger)}
+.b-vpn{color:var(--warn)}
+.b-stage{color:var(--warn);border-style:dashed}
+
+/* 外部認證標記 */
+.honor-row{margin-top:1.7vh;display:flex;align-items:center;gap:.9em;flex-wrap:wrap}
+.honor{
+  display:inline-flex;align-items:center;gap:.5em;
+  font-size:calc(25 * var(--u));font-weight:700;
+  color:var(--warn);
+  background:var(--tint-mid);
+  border:1px solid var(--warn);
+  border-radius:8px;
+  padding:.42em 1em;
+}
+.honor::before{content:"◆";font-size:.8em;opacity:.8}
+.honor-note{font-size:calc(21 * var(--u));color:var(--dim)}
+
+/* 簡化架構圖 */
+.arch{display:grid;grid-template-columns:1fr auto 1fr;gap:.7vw;align-items:stretch;margin-top:.4vh}
+/* 三段式流程用，中間兩個箭頭欄比兩段式窄，避免五欄擠在一起 */
+.arch.arch3{grid-template-columns:1fr auto 1fr auto 1fr;gap:.45vw}
+.arch.arch3 .arch-mid{min-width:3.6em}
+.arch.arch3 .arch-col{padding:1.2vh .6vw}
+.arch-col{
+  background:var(--panel2);border:1px solid var(--line);border-radius:8px;
+  padding:1.2vh .8vw;display:flex;flex-direction:column;gap:.35em;
+}
+.arch-col.hosp{border-color:var(--accent-dim)}
+.arch-h{
+  font-size:calc(17 * var(--u));letter-spacing:.1em;
+  color:var(--accent);font-weight:700;margin-bottom:.2em;
+}
+.arch-col.hosp .arch-h{color:var(--accent)}
+.arch-i{font-size:calc(19 * var(--u));color:var(--fg);line-height:1.4}
+.arch-mid{
+  display:flex;flex-direction:column;justify-content:center;
+  gap:.5em;padding:0 .3vw;min-width:5.5em;text-align:center;
+}
+.arch-flow{
+  font-size:calc(17 * var(--u));color:var(--dim);
+  white-space:nowrap;font-variant-numeric:tabular-nums;
+}
+.arch-flow b{color:var(--accent);font-weight:600}
+.arch-key{
+  margin-top:1vh;font-size:calc(19 * var(--u));
+  color:var(--warn);line-height:1.45;
+}
+
+/* 推估值區塊，與已完成事實視覺區隔 */
+.est{
+  margin-top:1.1vh;padding:.9vh 1vw;
+  border:1px dashed var(--warn);border-radius:8px;
+  background:var(--tint-soft);
+  font-size:calc(22 * var(--u));line-height:1.42;color:var(--dim);
+}
+.est strong{color:var(--warn);font-weight:700}
+.est-tag{
+  display:inline-block;margin-right:.6em;
+  font-size:.86em;font-weight:700;letter-spacing:.06em;
+  color:var(--warn);
+}
+
+/* 操作流程列 */
+.flow-steps{
+  display:flex;align-items:center;flex-wrap:wrap;
+  gap:.5em .7em;margin-top:1.4vh;
+}
+.flow-steps span{
+  background:var(--panel2);border:1px solid var(--accent-dim);
+  border-radius:7px;padding:.4em .9em;
+  font-size:calc(24 * var(--u));font-weight:600;
+  color:var(--fg);white-space:nowrap;
+}
+.flow-steps i{color:var(--accent);font-style:normal;font-size:1.1em}
+
+/* 模組標籤雲 */
+.modules{margin-top:2.6vh;max-width:56em}
+.modules-h{
+  font-size:calc(18 * var(--u));letter-spacing:.16em;
+  color:var(--accent);font-weight:650;margin-bottom:1.2vh;
+}
+.chips,.modules-list{display:flex;flex-wrap:wrap;gap:.5em .6em}
+.chips span,.modules-list span{
+  background:var(--panel2);border:1px solid var(--line);
+  border-radius:6px;padding:.32em .8em;
+  font-size:calc(20 * var(--u));color:var(--fg);white-space:nowrap;
+}
+.modules-note{
+  margin-top:1.4vh;font-size:calc(21 * var(--u));
+  color:var(--dim);line-height:1.5;
+}
+
+/* 文獻出處 */
+.cite{
+  margin-top:1.3vh;font-size:calc(17 * var(--u));
+  color:var(--muted);line-height:1.45;
+}
+
+/* 三條流程線 */
+.flows{margin-top:1vh;display:flex;flex-direction:column;gap:.36em}
+.flow-line{
+  font-size:calc(21 * var(--u));line-height:1.38;
+  color:var(--fg);white-space:nowrap;
+}
+.flow-line b{
+  display:inline-block;min-width:2.6em;
+  color:var(--accent);font-weight:700;
+  margin-right:.5em;
+}
+.flow-line i{color:var(--accent);font-style:normal;opacity:.75;margin:0 .15em}
+
+/* 加好友 QR */
+.qr-row{display:flex;align-items:center;gap:1vw;margin-top:.9vh}
+.qr-row img{
+  width:calc(132 * var(--u));height:auto;
+  background:#fff;padding:.4em;border-radius:6px;display:block;
+  border:1px solid var(--line);
+}
+.qr-cap{font-size:calc(19 * var(--u));color:var(--dim);line-height:1.5}
+.qr-cap strong{color:var(--fg);font-weight:600}
+
+/* 佔位標記 */
+.ph{
+  background:var(--tint-strong);
+  color:var(--warn);
+  border:1px dashed var(--warn);
+  border-radius:5px;
+  padding:.05em .5em;
+  font-weight:700;white-space:nowrap;
+}
+
+/* 分岔頁 */
+.branch{display:grid;grid-template-columns:repeat(3,1fr);gap:1.3vh 1.3vw;margin-top:2.6vh}
+.card{
+  background:var(--panel);border:1px solid var(--line);
+  border-radius:12px;padding:2.6vh 1.5vw;
+  cursor:pointer;text-align:left;color:inherit;font:inherit;
+  display:flex;flex-direction:column;justify-content:center;gap:.7vh;
+  min-height:15vh;
+  transition:border-color .12s,background .12s,transform .12s;
+}
+.card:hover,.card:focus-visible{
+  border-color:var(--accent);background:var(--hover);
+  transform:translateY(-2px);outline:none;
+}
+.card .n{
+  font-size:calc(18 * var(--u));
+  color:var(--accent);font-weight:700;letter-spacing:.16em;
+}
+.card .t{font-size:calc(34 * var(--u));font-weight:700;line-height:1.3}
+.card .d{font-size:calc(21 * var(--u));color:var(--dim);line-height:1.5}
+.card.muted .n{color:var(--dim)}
+.branch-hint{
+  margin-top:1.8vh;font-size:calc(22 * var(--u));
+  color:var(--dim);
+}
+
+/* 深講層四段式 */
+.deep{display:grid;grid-template-columns:1fr 1fr;gap:1.1vh 2.4vw;margin-top:2.1vh;align-content:start}
+.blk .h{
+  font-size:calc(19 * var(--u));
+  letter-spacing:.16em;color:var(--accent);
+  font-weight:650;margin-bottom:.6vh;
+  padding-bottom:.45vh;border-bottom:1px solid var(--line);
+}
+.blk .c{font-size:calc(25 * var(--u));line-height:1.4;color:var(--fg)}
+.blk .c ul{list-style:none;display:flex;flex-direction:column;gap:.3em}
+.blk .c li{padding-left:1.1em;position:relative}
+.blk .c li::before{
+  content:"";position:absolute;left:0;top:.62em;
+  width:.42em;height:.42em;border-radius:50%;background:var(--accent-dim);
+}
+.blk.pilot .h{color:var(--warn)}
+.blk.pilot .c li::before{background:var(--warn)}
+
+/* 回返控制項 */
+.back{
+  position:absolute;top:3.2vh;right:6vw;
+  background:var(--panel);border:1px solid var(--line);
+  color:var(--dim);border-radius:999px;
+  padding:.5em 1.2em;cursor:pointer;
+  font:inherit;font-size:calc(20 * var(--u));
+  transition:border-color .12s,color .12s;
+}
+.back:hover,.back:focus-visible{border-color:var(--accent);color:var(--accent);outline:none}
+
+/* 表格 */
+table{width:100%;border-collapse:collapse;margin-top:2.2vh;font-size:calc(25 * var(--u))}
+th,td{text-align:left;padding:1.15vh 1.1vw;border-bottom:1px solid var(--line);vertical-align:top}
+th{color:var(--accent);font-weight:650;font-size:calc(19 * var(--u));letter-spacing:.1em}
+td.state{color:var(--dim)}
+
+/* 結尾 */
+.closing .big{
+  font-size:calc(63 * var(--u));font-weight:750;
+  line-height:1.4;max-width:20em;
+}
+.closing .note{
+  margin-top:4vh;font-size:calc(29 * var(--u));color:var(--dim);
+  padding-left:1.1em;border-left:3px solid var(--accent-dim);max-width:30em;
+}
+
+/* 頁碼與層級標籤的原始位置。內容留在各頁 DOM 供頁尾鏡射，本身不顯示。 */
+.pageno,.pagetag{display:none}
+
+/* 頁尾：院徽與院名，固定顯示於每一頁 */
+.deck-footer{
+  position:fixed;left:6vw;right:6vw;bottom:1.1vh;
+  z-index:10;pointer-events:none;
+  display:flex;align-items:center;gap:.7em;
+  border-top:1px solid var(--line);
+  padding-top:.45vh;
+  line-height:1.15;
+}
+.f-logo{
+  height:calc(27 * var(--u));width:auto;display:block;
+  flex-shrink:0;
+  /* 負邊界讓院徽可以畫得比頁尾行高大，但不撐高整條頁尾 */
+  margin:calc(-3 * var(--u)) 0;
+}
+.f-org{
+  font-size:calc(21 * var(--u));font-weight:700;
+  color:var(--dim);letter-spacing:.03em;white-space:nowrap;
+}
+.f-bar{
+  width:1px;height:calc(16 * var(--u));
+  background:var(--line);flex-shrink:0;
+}
+.f-prog{
+  font-size:calc(18 * var(--u));color:var(--muted);white-space:nowrap;
+}
+.f-spacer{flex:1}
+.f-tag{
+  font-size:calc(18 * var(--u));color:var(--muted);
+  letter-spacing:.14em;white-space:nowrap;
+}
+.f-no{
+  font-size:calc(18 * var(--u));color:var(--muted);
+  font-variant-numeric:tabular-nums;white-space:nowrap;
+  min-width:4.2em;text-align:right;
+}
+/* 極窄螢幕捨去計畫名，院徽與院名一律保留 */
+@media (max-width:430px){ .f-prog,.f-bar{display:none} }
+
+/* 日夜切換 */
+.theme-toggle{
+  pointer-events:auto;flex-shrink:0;
+  background:transparent;border:1px solid var(--line);
+  color:var(--muted);border-radius:999px;
+  padding:.25em .8em;cursor:pointer;
+  font:inherit;font-size:calc(16 * var(--u));line-height:1;
+  opacity:.45;transition:opacity .15s,border-color .15s,color .15s;
+}
+.theme-toggle:hover,.theme-toggle:focus-visible{
+  opacity:1;border-color:var(--accent);color:var(--accent);outline:none;
+}
+</style>
+</head>
+<body>
+
+<!-- 頁尾：院徽、院名、計畫名，每頁固定顯示。層級標籤與頁碼由 show() 自各頁鏡射過來。 -->
+<footer class="deck-footer">
+  <img class="f-logo" src="data:image/png;base64,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" alt="國軍高雄總醫院院徽">
+  <span class="f-org">國軍高雄總醫院</span>
+  <span class="f-bar"></span>
+  <span class="f-prog">健康台灣深耕計畫　範疇三</span>
+  <span class="f-spacer"></span>
+  <span class="f-tag" id="footerTag"></span>
+  <button class="theme-toggle" id="themeBtn" onclick="toggleTheme()" aria-label="切換日間或夜間版">日間版</button>
+  <span class="f-no" id="footerNo"></span>
+</footer>
+
+<!-- 1 封面 -->
+<section class="slide cover on">
+  <div class="eyebrow">國軍高雄總醫院　範疇三</div>
+  <h1>健康台灣深耕計畫<br>第一階段成果</h1>
+  <div class="org">醫學資訊室</div>
+  <div class="lede">六項交付，全部已上線或完成建置。</div>
+  <div class="honor-row">
+    <span class="honor">衛生福利部第一屆「台灣 50 優良 SMART 應用程式」獲選</span>
+    <span class="honor-note">火線超人、救護車傷患追蹤平台</span>
+  </div>
+  <div class="meta">
+    <span>六項成果概覽</span>
+    <span>對外版　院內系統入口未列出</span>
+    <span>方向鍵翻頁　F 鍵全螢幕　D 鍵切換日夜版</span>
+  </div>
+  <div class="pageno">1 / 17</div>
+</section>
+
+<!-- 2 問題框架 -->
+<section class="slide">
+  <div class="eyebrow">為什麼從這裡開始</div>
+  <h2>效能的空間在哪裡</h2>
+  <div class="claim">行政佔醫療總支出的 15% 到 30%，其中近三成可以省下來。</div>
+  <div class="evidence">
+    <div class="label">研究依據</div>
+    <div class="body"><span class="sent">已知的流程介入即可省下約 28% 的行政支出，不必等新技術。</span><span class="sent">範疇三從全院共通的三類負擔下手，涵蓋醫療、護理、行政各職類。</span>
+      <div class="flows">
+        <div class="flow-line"><b>紙本作業</b><i>→</i>電子紙表單、會議逐字稿</div>
+        <div class="flow-line"><b>人工交接</b><i>→</i>給藥閉環、檢體追蹤</div>
+        <div class="flow-line"><b>資訊落差</b><i>→</i>救護看板、就醫進度查詢</div>
+      </div>
+      <div class="cite">The Role of Administrative Waste in Excess US Health Spending. Health Affairs Research Brief, 2022. ／ Cutler D, Carrus B, Mishra P, Sahni NR. Administrative Simplification. McKinsey &amp; Company, 2021. 均為美國醫療體系分析，台灣健保結構不同，惟三類流程負擔共通。</div>
+    </div>
+  </div>
+  <div class="pagetag">問題框架</div>
+  <div class="pageno">2 / 17</div>
+</section>
+
+<!-- 3 快速層：緊急救護即時看板 -->
+<section class="slide">
+  <div class="eyebrow">成果一　急診動態 TEP</div>
+  <h2>緊急救護即時看板</h2>
+  <div class="claim">救護車離開現場那一刻，急診就開始準備。</div>
+  <div class="honor-row">
+    <span class="honor">台灣 50 優良 SMART 應用程式　獲選</span>
+    <span class="honor-note">以「救護車傷患追蹤平台」獲選</span>
+  </div>
+  <div class="evidence">
+    <div class="label">可驗證憑據</div>
+    <div class="body">
+      <span class="figure">762<span class="unit">件 / 近 31 天</span></span>
+      <span class="figure" style="margin-left:1.2em">24.6<span class="unit">件 / 日</span></span>
+      <div style="margin-top:1.2vh"><span class="sent">看板已上線，逐案顯示意識狀態、GCS 與生命徵象。</span><span class="sent">已整合衛生福利部一站通，到院後資訊回傳中央，完成通報閉環。</span></div>
+    </div>
+    <div class="linkrow">
+      <span class="nolink">院內入口</span>
+      <span class="badge b-lan">院內限定</span>
+    </div>
+  </div>
+  <div class="pagetag">快速層</div>
+  <div class="pageno">3 / 17</div>
+</section>
+
+<!-- 4 快速層：火線超人 -->
+<section class="slide">
+  <div class="eyebrow">成果二　FHIRLineBot</div>
+  <h2>火線超人</h2>
+  <div class="claim">跨院取回病歷，交給院內 AI 解讀。</div>
+  <div class="honor-row">
+    <span class="honor">台灣 50 優良 SMART 應用程式　獲選</span>
+  </div>
+  <div class="evidence">
+    <div class="label">可驗證憑據</div>
+    <div class="body"><span class="sent">以 SMART on FHIR 標準在民眾授權下跨院取得病歷，經 <strong style="color:var(--accent)">Kafka 隔離</strong>送回院內，由<strong style="color:var(--accent)">地端 AI</strong> 分析解讀。</span><span class="sent">民眾端採 <strong style="color:var(--accent)">LINE LIFF</strong> 嵌入院方網頁，<strong style="color:var(--accent)">病歷不經 LINE 伺服器、不出國</strong>。</span><span class="sent">看診進度與用藥提醒為輔助功能。</span></div>
+    <div class="linkrow">
+      <a class="demo" href="https://fhirlinebot.turbos.tw/" target="_blank" rel="noopener">https://fhirlinebot.turbos.tw/</a>
+      <span class="badge b-open">可直接開啟</span>
+    </div>
+  </div>
+  <div class="pagetag">快速層</div>
+  <div class="pageno">4 / 17</div>
+</section>
+
+<!-- 5 快速層：地端主權 AI -->
+<section class="slide">
+  <div class="eyebrow">成果三　AIRD</div>
+  <h2>地端主權 AI</h2>
+  <div class="claim">病人資料不出院，算力我們自己有。</div>
+  <div class="evidence">
+    <div class="label">可驗證憑據</div>
+    <div class="body">
+      <span class="figure">院內<span class="unit">GPU 算力叢集</span></span>
+      <div style="margin-top:1.2vh"><span class="sent">組成院內 GPU Pool，模型推論全程留在院內網段。</span><span class="sent">已部署四個模型，含院內自建的 aird-35b 與台語語音辨識 taigi-asr；累計評測涵蓋 1B 至 122B 參數規模。</span><span class="sent">已開放院內同仁申請使用，屬導入初期。</span></div>
+    </div>
+    <div class="linkrow">
+      <span class="nolink">院內服務入口</span>
+      <span class="badge b-lan">院內限定</span>
+    </div>
+  </div>
+  <div class="pagetag">快速層</div>
+  <div class="pageno">5 / 17</div>
+</section>
+
+<!-- 6 快速層：智慧醫療資訊平台 -->
+<section class="slide">
+  <div class="eyebrow">成果四　Smart HIS</div>
+  <h2>智慧醫療資訊平台</h2>
+  <div class="claim">藥送到哪、檢體到哪、誰簽的字，全程都查得到。</div>
+  <div class="evidence">
+    <div class="label">可驗證憑據</div>
+    <div class="body">
+      <span class="figure">6<span class="unit">大模組已建置</span></span>
+      <span class="figure" style="margin-left:1.2em">70<span class="unit">台電子紙到位</span></span>
+      <div class="chips" style="margin-top:1.4vh">
+        <span>檢體追蹤</span><span>給藥追蹤</span><span>電子紙</span>
+        <span>床頭卡</span><span>藥局</span><span>ESL 電子標籤</span>
+      </div>
+      <div style="margin-top:1.4vh">六個模組同屬一個平台，共用權限與操作稽核，對應 <strong style="color:var(--accent)">HIMSS 給藥閉環與檢體追蹤</strong>要求。</div>
+    </div>
+    <div class="linkrow">
+      <span class="nolink">系統位於院內測試環境，尚未進入臨床使用</span>
+      <span class="badge b-lan">內網測試環境</span>
+      <span class="badge b-stage">建置完成，進入試點</span>
+    </div>
+  </div>
+  <div class="pagetag">快速層</div>
+  <div class="pageno">6 / 17</div>
+</section>
+
+<!-- 7 快速層：官網與院務系統 -->
+<section class="slide">
+  <div class="eyebrow">成果五　官網 ＆ 逐字稿</div>
+  <h2>官網與院務系統</h2>
+  <div class="claim">會議結束三分鐘，逐字稿與摘要就在手上。</div>
+  <div class="evidence">
+    <div class="label">可驗證憑據</div>
+    <div class="body">
+      <span class="figure">3<span class="unit">分鐘產出</span></span>
+      <span class="figure" style="margin-left:1.2em">20<span class="unit">倍效率</span></span>
+      <div style="margin-top:1.2vh"><span class="sent">一小時會議錄音原需一小時以上聽打與整理，現由<strong style="color:var(--accent)">地端 ASR 與 LLM</strong> 在三分鐘內完成，自動輸出 PDF 與 Word。</span><span class="sent">官網 3 月全新改版後重新計數，半年累計 <strong style="color:var(--accent)">213 萬次瀏覽</strong>，採前後台分離架構。</span></div>
+    </div>
+    <div class="linkrow">
+      <span class="nolink">院內入口</span>
+      <span class="badge b-lan">院內限定</span>
+    </div>
+  </div>
+  <div class="pagetag">快速層</div>
+  <div class="pageno">7 / 17</div>
+</section>
+
+<!-- 8 快速層：院內訊息中樞 -->
+<section class="slide">
+  <div class="eyebrow">成果六　Message Hub</div>
+  <h2>院內訊息中樞</h2>
+  <div class="claim">訊息發出去，還要確認醫師真的處置了。</div>
+  <div class="evidence">
+    <div class="label">可驗證憑據</div>
+    <div class="body">
+      <span class="figure">全院<span class="unit">員工涵蓋</span></span>
+      <span class="figure" style="margin-left:1.2em">36<span class="unit">個部門本月觸及</span></span>
+      <div style="margin-top:1.2vh"><span class="sent">公告、危檢值、異常三類分軌追蹤。</span><span class="sent">已整合 <strong style="color:var(--accent)">HIS trigger</strong> 可由檢驗系統直接觸發，並內建 <strong style="color:var(--accent)">webchat</strong>，院內訊息與檔案交換不經外部通訊軟體。</span></div>
+    </div>
+    <div class="linkrow">
+      <span class="nolink">院內入口</span>
+      <span class="badge b-lan">院內限定</span>
+      <span class="badge b-stage">初期導入</span>
+    </div>
+    <div class="est">
+      <span class="est-tag">第二階段</span>
+      webchat 將接入 <strong>AI 代理人</strong>，同仁在對話中 @ 一下即可交辦查詢與整理，運算仍在院內算力上完成。
+    </div>
+  </div>
+  <div class="pagetag">快速層</div>
+  <div class="pageno">8 / 17</div>
+</section>
+
+<!-- 9 分岔頁 -->
+<section class="slide">
+  <div class="eyebrow">請指定</div>
+  <h2>哪一項要深入看？</h2>
+  <div class="branch">
+    <button class="card" onclick="go(10)">
+      <span class="n">成果一　<span style="color:var(--warn)">◆ SMART 50 獲選</span></span>
+      <span class="t">緊急救護即時看板</span>
+      <span class="d">救護車還在路上急診已看到，到院後回傳衛福部</span>
+    </button>
+    <button class="card" onclick="go(11)">
+      <span class="n">成果二　<span style="color:var(--warn)">◆ SMART 50 獲選</span></span>
+      <span class="t">火線超人</span>
+      <span class="d">跨院取回病歷，院內 AI 解讀</span>
+    </button>
+    <button class="card" onclick="go(12)">
+      <span class="n">成果三</span>
+      <span class="t">地端主權 AI</span>
+      <span class="d">院內 GPU Pool，資料不出院</span>
+    </button>
+    <button class="card muted" onclick="go(13)">
+      <span class="n">成果四</span>
+      <span class="t">智慧醫療資訊平台</span>
+      <span class="d">給藥閉環、檢體追蹤、電子紙文件</span>
+    </button>
+    <button class="card" onclick="go(14)">
+      <span class="n">成果五</span>
+      <span class="t">官網與院務系統</span>
+      <span class="d">會議記錄 3 分鐘產出，官網與入口網改版</span>
+    </button>
+    <button class="card" onclick="go(15)">
+      <span class="n">成果六</span>
+      <span class="t">院內訊息中樞</span>
+      <span class="d">危險值通知、一次性連結、院內 webchat</span>
+    </button>
+  </div>
+  <div class="branch-hint">點選任一項進入細節，或直接按方向鍵依序往下。</div>
+  <div class="pagetag">分岔</div>
+  <div class="pageno">9 / 17</div>
+</section>
+
+<!-- 10 深講：緊急救護即時看板 -->
+<section class="slide">
+  <button class="back" onclick="go(9)">← 回選單</button>
+  <div class="eyebrow">深入　成果一</div>
+  <h2>緊急救護即時看板</h2>
+  <div class="honor-row" style="margin-top:1.6vh">
+    <span class="honor">台灣 50 優良 SMART 應用程式　獲選</span>
+    <span class="honor-note">送件作品名「救護車傷患追蹤平台」</span>
+  </div>
+  <div class="deep">
+    <div class="blk">
+      <div class="h">問題背景</div>
+      <div class="c"><span class="sent">救護車送達前，急診端只能被動等待。</span><span class="sent">人力調度、空間準備、專科通知都要等病人進門才啟動，重症案件因此損失前置時間。</span></div>
+    </div>
+    <div class="blk">
+      <div class="h">做法</div>
+      <div class="c">
+        <div class="arch arch3">
+          <div class="arch-col">
+            <div class="arch-h">救護端</div>
+            <div class="arch-i">派遣案件</div>
+            <div class="arch-i">意識狀態、GCS</div>
+            <div class="arch-i">生命徵象</div>
+          </div>
+          <div class="arch-mid">
+            <div class="arch-flow">送醫途中</div>
+            <div class="arch-flow"><b>→</b></div>
+          </div>
+          <div class="arch-col hosp">
+            <div class="arch-h">院內看板</div>
+            <div class="arch-i">急診即時檢視</div>
+            <div class="arch-i">人力與空間預備</div>
+            <div class="arch-i">專科提前通知</div>
+          </div>
+          <div class="arch-mid">
+            <div class="arch-flow">到院後</div>
+            <div class="arch-flow"><b>→</b></div>
+          </div>
+          <div class="arch-col">
+            <div class="arch-h">衛福部一站通</div>
+            <div class="arch-i">處置資訊回傳</div>
+            <div class="arch-i">完成通報閉環</div>
+          </div>
+        </div>
+        <div class="arch-key"><span class="sent">救護、院內、中央三端接成一條線。</span><span class="sent">病人還沒進門，急診已經在準備。</span></div>
+      </div>
+    </div>
+    <div class="blk">
+      <div class="h">可驗證產出</div>
+      <div class="c"><ul>
+        <li>近 31 天處理 <strong style="color:var(--accent)">762 件</strong>，每日平均 24.6 件</li>
+        <li>重大外傷 274 件、OHCA 16 件、腦中風 14 件、心肌梗塞 5 件</li>
+        <li><strong style="color:var(--accent)">已介接衛生福利部一站通</strong>，到院後資訊自動回傳中央</li>
+        <li>時段熱力圖與尖峰分析，可支援急診人力配置</li>
+        <li>個資分級控制內建，未登入預設遮蔽姓名</li>
+      </ul></div>
+    </div>
+    <div class="blk">
+      <div class="h">存取方式</div>
+      <div class="c">
+        <div class="linkrow" style="margin-top:0">
+          <span class="nolink">院內入口</span>
+          <span class="badge b-lan">院內限定</span>
+        </div>
+        <div style="margin-top:.6vh;color:var(--dim);font-size:.85em">即時看板，未登入預設遮蔽個資</div>
+        <div class="linkrow" style="margin-top:1.4vh">
+          <span class="nolink">院內入口</span>
+          <span class="badge b-lan">院內限定</span>
+        </div>
+        <div style="margin-top:.6vh;color:var(--dim);font-size:.85em">統計分析，全為聚合圖表，無個資</div>
+      </div>
+    </div>
+  </div>
+  <div class="pagetag">深講層</div>
+  <div class="pageno">10 / 17</div>
+</section>
+
+<!-- 11 深講：火線超人 -->
+<section class="slide">
+  <button class="back" onclick="go(9)">← 回選單</button>
+  <div class="eyebrow">深入　成果二</div>
+  <h2>火線超人 FHIRLineBot</h2>
+  <div class="honor-row" style="margin-top:1.6vh">
+    <span class="honor">台灣 50 優良 SMART 應用程式　獲選</span>
+  </div>
+  <div class="deep">
+    <div class="blk">
+      <div class="h">問題背景</div>
+      <div class="c"><span class="sent">病人在不同醫院看診，病歷散在各家，醫師手上永遠只有片段。</span><span class="sent">想用 AI 協助解讀，又不能把病歷送到院外雲端，資料主權與法遵這關過不去。</span></div>
+    </div>
+    <div class="blk">
+      <div class="h">做法</div>
+      <div class="c">
+        <div class="arch">
+          <div class="arch-col">
+            <div class="arch-h">雲端</div>
+            <div class="arch-i">LINE LIFF 入口</div>
+            <div class="arch-i">跨院 FHIR 病歷</div>
+            <div class="arch-i">SMART on FHIR</div>
+          </div>
+          <div class="arch-mid">
+            <div class="arch-flow">Kafka</div>
+            <div class="arch-flow">病歷 <b>→</b></div>
+            <div class="arch-flow"><b>←</b> 解讀</div>
+          </div>
+          <div class="arch-col hosp">
+            <div class="arch-h">醫院內網</div>
+            <div class="arch-i">AI Worker</div>
+            <div class="arch-i">本地 LLM</div>
+            <div class="arch-i">gpt-oss-120b</div>
+          </div>
+        </div>
+        <div class="arch-key"><span class="sent">資料流採單向設計，外部無法主動連入院內。</span><span class="sent">AI 推論在院內完成，病人資料不出院。</span></div>
+      </div>
+    </div>
+    <div class="blk">
+      <div class="h">可驗證產出</div>
+      <div class="c"><ul>
+        <li>以 <strong style="color:var(--accent)">SMART on FHIR</strong> 於民眾授權下跨院取得病歷，採 OAuth 2.0 與 PKCE，符合 FHIR R4 國際標準</li>
+        <li>病歷經 <strong style="color:var(--accent)">Kafka 隔離</strong>送回院內，由<strong style="color:var(--accent)">地端 AI 分析解讀</strong>，不落外部雲端</li>
+        <li>民眾端採 <strong style="color:var(--accent)">LINE LIFF</strong> 嵌入院方網頁，病歷於院方網域呈現，<strong style="color:var(--accent)">不經 LINE 伺服器、不出國</strong></li>
+        <li>輔助功能：即時看診進度、家屬陪護、回診與用藥與檢驗三類提醒</li>
+      </ul></div>
+    </div>
+    <div class="blk">
+      <div class="h">存取方式</div>
+      <div class="c">
+        <div class="linkrow" style="margin-top:0">
+          <a class="demo" href="https://fhirlinebot.turbos.tw/" target="_blank" rel="noopener">fhirlinebot.turbos.tw</a>
+          <span class="badge b-open">可直接開啟</span>
+        </div>
+        <div class="qr-row">
+          <img src="data:image/png;base64,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" alt="火線超人 LINE 官方帳號加好友 QR code">
+          <div class="qr-cap"><strong>現在就能加好友</strong><br>用 LINE 掃這個碼，<br>不必安裝任何 App。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="pagetag">深講層</div>
+  <div class="pageno">11 / 17</div>
+</section>
+
+<!-- 12 深講：地端主權 AI -->
+<section class="slide">
+  <button class="back" onclick="go(9)">← 回選單</button>
+  <div class="eyebrow">深入　成果三</div>
+  <h2>地端主權 AI</h2>
+  <div class="deep">
+    <div class="blk">
+      <div class="h">問題背景</div>
+      <div class="c"><span class="sent">醫療資料若送往院外雲端進行 AI 推論，存在資料主權與法遵疑慮。</span><span class="sent">以軍醫體系的資料敏感度，這條路本來就走不通。</span></div>
+    </div>
+    <div class="blk">
+      <div class="h">做法</div>
+      <div class="c">
+        <div class="arch">
+          <div class="arch-col">
+            <div class="arch-h">院內應用</div>
+            <div class="arch-i">火線超人病歷解讀</div>
+            <div class="arch-i">會議逐字稿與摘要</div>
+            <div class="arch-i">統一對話入口</div>
+          </div>
+          <div class="arch-mid">
+            <div class="arch-flow">推論請求</div>
+            <div class="arch-flow"><b>→</b></div>
+            <div class="arch-flow"><b>←</b> 結果</div>
+          </div>
+          <div class="arch-col hosp">
+            <div class="arch-h">院內 GPU Pool</div>
+            <div class="arch-i">院內 GPU 算力叢集</div>
+            <div class="arch-i">四個模型上線</div>
+            <div class="arch-i">推論不出院內網段</div>
+          </div>
+        </div>
+        <div class="arch-key"><span class="sent">各應用共用同一份算力，不必每個系統各建一套。</span><span class="sent">火線超人跨院取回的病歷，就在這份算力上解讀。</span></div>
+      </div>
+    </div>
+    <div class="blk">
+      <div class="h">可驗證產出</div>
+      <div class="c"><ul>
+        <li>院內 GPU 算力叢集已就位，統一服務入口已上線</li>
+        <li>已部署四個模型：aird-35b（院內自建）、taigi-asr（台語語音辨識）、gpt-oss-120b、gemma4</li>
+        <li>累計評測涵蓋 Gemma、Qwen、Mistral、Phi、GPT-OSS 五大開源系列，參數規模自 1B 至 122B，含視覺模型</li>
+        <li>服務入口需帳號認證，權限與院內身分綁定</li>
+      </ul></div>
+    </div>
+    <div class="blk">
+      <div class="h">存取方式</div>
+      <div class="c">
+        <div class="linkrow" style="margin-top:0">
+          <span class="nolink">院內服務入口</span>
+          <span class="badge b-lan">院內限定</span>
+          <span class="badge b-stage">導入初期</span>
+        </div>
+        <div style="margin-top:1.2vh;color:var(--dim);font-size:.85em">算力與模型已就緒，使用推廣尚在初期，第二階段的重點是把它變成日常工具。</div>
+      </div>
+    </div>
+  </div>
+  <div class="pagetag">深講層</div>
+  <div class="pageno">12 / 17</div>
+</section>
+
+<!-- 13 深講：智慧醫療資訊平台 -->
+<section class="slide">
+  <button class="back" onclick="go(9)">← 回選單</button>
+  <div class="eyebrow">深入　成果四</div>
+  <h2>智慧醫療資訊平台</h2>
+  <div class="deep">
+    <div class="blk">
+      <div class="h">問題背景</div>
+      <div class="c"><span class="sent">給藥與檢體的交接靠紙本與口頭，出了錯難以回溯是哪一棒斷的。</span><span class="sent">文件則卡在兩難：紙本要掃描歸檔，改成 HTML 表單又把版面拆成一格格輸入框，臨床不願意用。</span></div>
+    </div>
+    <div class="blk">
+      <div class="h">做法</div>
+      <div class="c">單一平台涵蓋六大模組，共用權限與操作稽核，三條流程各自全程可追。
+        <div class="flows">
+          <div class="flow-line"><b>給藥</b>藥局<i>→</i>護理站接收<i>→</i>床邊給藥<i>→</i>歷程查詢</div>
+          <div class="flow-line"><b>檢體</b>送檢<i>→</i>在途監控<i>→</i>定點點交<i>→</i>簽收</div>
+          <div class="flow-line"><b>文件</b>刷識別證<i>→</i>擬真蓋章<i>→</i>加密時戳</div>
+        </div>
+      </div>
+    </div>
+    <div class="blk">
+      <div class="h">可驗證產出</div>
+      <div class="c"><ul>
+        <li><strong style="color:var(--accent)">給藥閉環</strong>已建，對應 HIMSS 要求：護理站接收、床邊給藥、歷程查詢，另備跨日未結案與異常監控</li>
+        <li><strong style="color:var(--accent)">檢體追蹤</strong>已建：送檢監控涵蓋退簽、逾時未收、卡關停滯三項異常指標，含定點點交</li>
+        <li>電子紙保留紙張版面與手寫行為，不受 HTML 表單束縛，70 台到位、14 種表單已導入</li>
+        <li>簽署附<strong style="color:var(--accent)">加密時戳</strong>，文件以病人為中心存入<strong style="color:var(--accent)">地端自建 S3 bucket</strong></li>
+      </ul></div>
+    </div>
+    <div class="blk pilot">
+      <div class="h">現階段定位</div>
+      <div class="c"><ul>
+        <li>建置完成，進入試點</li>
+        <li>系統位於院內網段測試環境，尚未進入臨床使用</li>
+        <li>本階段陳述建置事實，不列使用量</li>
+      </ul>
+      <div class="est">
+        <span class="est-tag">上線後推估</span>
+        機房巡檢表每份 6 張，以每日一份計，年省 <strong>2,190 張</strong>。
+      </div>
+      </div>
+    </div>
+  </div>
+  <div class="pagetag">深講層</div>
+  <div class="pageno">13 / 17</div>
+</section>
+
+<!-- 14 深講：官網與院務系統 -->
+<section class="slide">
+  <button class="back" onclick="go(9)">← 回選單</button>
+  <div class="eyebrow">深入　成果五</div>
+  <h2>官網與院務系統</h2>
+  <div class="deep">
+    <div class="blk">
+      <div class="h">問題背景</div>
+      <div class="c"><span class="sent">一小時的會議錄音，人工聽打加整理摘要至少要再花一小時，記錄產出慢且品質不一。</span><span class="sent">對外官網與對內系統入口也分散，同仁需記憶多組位址與帳號。</span></div>
+    </div>
+    <div class="blk">
+      <div class="h">做法</div>
+      <div class="c"><span class="sent">導入<strong style="color:var(--accent)">地端 ASR 與 LLM</strong>，會議結束三分鐘內產出逐字稿與摘要，自動輸出 PDF 與 Word，語音不送出院外。</span><span class="sent">官網採<strong style="color:var(--accent)">前後台分離</strong>部署，對外僅開放必要服務，外部無法回連內部。</span></div>
+    </div>
+    <div class="blk">
+      <div class="h">可驗證產出</div>
+      <div class="c"><ul>
+        <li>會議記錄處理時間由 <strong style="color:var(--accent)">60 分鐘以上降至 3 分鐘</strong>，縮短 95%</li>
+        <li>逐字稿與摘要自動輸出 PDF 與 Word，無需人工排版</li>
+        <li>官網 3 月全新改版後重新計數，半年累計 <strong style="color:var(--accent)">213 萬次瀏覽、77 萬訪客</strong>，1,120 篇文章已發布</li>
+        <li>開放民眾<strong style="color:var(--accent)">訂閱通知</strong>，停診、醫訊等最新消息主動推播，不必自己回來查</li>
+        <li>內部入口網整合 webmail、差勤薪資、教學平台、雲端服務等多套系統，並納管 7 間會議室預約</li>
+        <li>會議場景整合架構已備：文件存地端 S3 bucket、電子紙檢視、手寫註記回存，<span style="color:var(--warn)">尚未上線</span></li>
+      </ul></div>
+    </div>
+    <div class="blk">
+      <div class="h">存取方式</div>
+      <div class="c">
+        <div class="linkrow" style="margin-top:0">
+          <span class="nolink">院內入口</span>
+          <span class="badge b-lan">院內限定</span>
+        </div>
+        <div class="linkrow">
+          <a class="demo" href="https://802.mnd.gov.tw" target="_blank" rel="noopener">https://802.mnd.gov.tw</a>
+          <span class="badge b-open">可直接開啟</span>
+        </div>
+        <div class="est">
+          <span class="est-tag">效益推估</span>
+          以每日 3 場會議、每場省 57 分鐘計，導入 2 個月約省 <strong>125 小時</strong>；年化約 <strong>712 小時</strong>，相當於 89 個工作天。
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="pagetag">深講層</div>
+  <div class="pageno">14 / 17</div>
+</section>
+
+<!-- 15 深講：院內訊息中樞 -->
+<section class="slide">
+  <button class="back" onclick="go(9)">← 回選單</button>
+  <div class="eyebrow">深入　成果六</div>
+  <h2>院內訊息中樞</h2>
+  <div class="deep">
+    <div class="blk">
+      <div class="h">問題背景</div>
+      <div class="c"><span class="sent">危險值通知發出去，不知道醫師收到沒有，打電話找人耗時，紙本簽收事後難追溯。</span><span class="sent">另一面，同仁討論病情時若使用外部通訊軟體，病歷與個資就流出了院方可控範圍。</span></div>
+    </div>
+    <div class="blk">
+      <div class="h">做法</div>
+      <div class="c">簡訊與 Email 雙管道送達，訊息內含<strong style="color:var(--accent)">一次性連結</strong>，醫師點開即可用罐頭回覆完成確認與處置，逾 24 小時未回覆自動再提醒一次。資料流全程經 <strong style="color:var(--accent)">Kafka 隔離</strong>，外部無路徑可直接觸及院內系統。另建 webchat 供同仁即時交換訊息與檔案，全程留在院內。
+        <div class="flows">
+          <div class="flow-line"><b>送達</b>簡訊＋Email<i>→</i>一次性連結</div>
+          <div class="flow-line"><b>回覆</b>罐頭回覆<i>→</i>處置確認</div>
+          <div class="flow-line"><b>稽核</b>回覆率<i>→</i>超時追蹤</div>
+        </div>
+      </div>
+    </div>
+    <div class="blk">
+      <div class="h">可驗證產出</div>
+      <div class="c"><ul>
+        <li>涵蓋全院員工，本月實際觸及 <strong style="color:var(--accent)">36 個部門</strong>，含各科主任與分院院長</li>
+        <li>已整合 <strong style="color:var(--accent)">HIS trigger</strong>，檢驗系統可直接觸發通知，不需人工轉發</li>
+        <li>五種發送通道，逾 24 小時未回覆<strong style="color:var(--accent)">自動再提醒</strong>，三類分軌並附時段熱力圖與需關注部門排行</li>
+        <li>內建 <strong style="color:var(--accent)">webchat</strong>，訊息、文件與檔案交換全程留在院內，不流入外部通訊軟體</li>
+      </ul></div>
+    </div>
+    <div class="blk">
+      <div class="h">存取方式</div>
+      <div class="c">
+        <div class="linkrow" style="margin-top:0">
+          <span class="nolink">院內入口</span>
+          <span class="badge b-lan">院內限定</span>
+        </div>
+        <div style="margin-top:1.2vh;color:var(--dim);font-size:.85em">儀表板全為聚合統計，無個人訊息內容。</div>
+        <div class="est">
+          <span class="est-tag">現階段</span>
+          初期導入，公告類已實際運作並累積回覆數據；危檢值通道機制已備，正持續確認醫師回覆情形。
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="pagetag">深講層</div>
+  <div class="pageno">15 / 17</div>
+</section>
+
+<!-- 16 投入對照產出 -->
+<section class="slide">
+  <div class="eyebrow">總結</div>
+  <h2>第一階段交付對照</h2>
+  <table>
+    <thead>
+      <tr><th style="width:22%">項目</th><th style="width:34%">現況</th><th style="width:44%">驗證方式</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>緊急救護即時看板</td>
+        <td>已上線，日均 24.6 件，介接衛福部一站通<br><span style="color:var(--warn);font-size:.82em">SMART 50 獲選</span></td>
+        <td class="state">院內看板與統計分析頁可查核</td>
+      </tr>
+      <tr>
+        <td>火線超人</td>
+        <td>跨院病歷取得，院內 AI 解讀<br><span style="color:var(--warn);font-size:.82em">SMART 50 獲選</span></td>
+        <td class="state">平台首頁對外公開，免登入可檢視</td>
+      </tr>
+      <tr>
+        <td>地端主權 AI</td>
+        <td>算力與模型就緒，使用推廣初期</td>
+        <td class="state">院內服務入口，登入後可實際使用</td>
+      </tr>
+      <tr>
+        <td>智慧醫療資訊平台</td>
+        <td>六大模組建置完成，70 台電子紙到位</td>
+        <td class="state">給藥閉環、檢體追蹤與文件模組，院內網段查核</td>
+      </tr>
+      <tr>
+        <td>官網與院務系統</td>
+        <td>會議記錄 3 分鐘產出，官網前後分離上線</td>
+        <td class="state">官網對外公開，入口網於院內查核</td>
+      </tr>
+      <tr>
+        <td>院內訊息中樞</td>
+        <td>全院涵蓋，HIS trigger 與 webchat 已上線</td>
+        <td class="state">院內管理儀表板，聚合統計可查核</td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="branch-hint" style="margin-top:2.8vh">火線超人與官網為對外公開服務；其餘各項位於院內網路，本版不列出入口位址。</div>
+  <div class="pageno">16 / 17</div>
+</section>
+
+<!-- 17 銜接第二階段 -->
+<section class="slide closing">
+  <div class="eyebrow">接下來</div>
+  <div class="big">第一階段把基礎建設與標準介面立起來了。</div>
+  <div class="note"><span class="sent">AI 推論、GPU 算力、病人文件、會議語音，全部留在院內。</span><span class="sent"><br>第二階段要做的，是讓這些系統從「可以驗證」走到「每天在用」。</span></div>
+  <div class="modules">
+    <div class="modules-h">同一套架構下自建的模組</div>
+    <div class="modules-list">
+      <span>院內資訊</span><span>公文追蹤</span><span>官網管理</span><span>資產出借</span>
+      <span>會議室預約</span><span>訊息中心</span><span>公務機管理</span><span>設備管理</span>
+      <span>檔案管理</span><span>緊急救護 TEP</span><span>醫療追蹤</span><span>列印任務</span><span>標籤輸出</span>
+    </div>
+    <div class="modules-note"><span class="sent">十三個模組共用同一套權限、稽核與資料層。</span><span class="sent">第二階段要長出新功能，是加積木，不是重蓋。</span></div>
+  </div>
+  <div class="pageno">17 / 17</div>
+</section>
+
+<script>
+(function(){
+  var slides = document.querySelectorAll('.slide');
+  var total = slides.length;
+  var cur = 0;
+
+  // 日夜版切換，偏好存於 localStorage；file:// 下若不可用則僅作用於本次
+  var THEME_KEY = 'htddp-deck-theme';
+  function applyTheme(t){
+    document.documentElement.setAttribute('data-theme', t);
+    var btn = document.getElementById('themeBtn');
+    if(btn) btn.textContent = (t === 'day') ? '夜間版' : '日間版';
+    try { localStorage.setItem(THEME_KEY, t); } catch(e) {}
+  }
+  window.toggleTheme = function(){
+    var cur = document.documentElement.getAttribute('data-theme') || 'night';
+    applyTheme(cur === 'day' ? 'night' : 'day');
+  };
+  var saved = null;
+  try { saved = localStorage.getItem(THEME_KEY); } catch(e) {}
+  applyTheme(saved === 'day' ? 'day' : 'night');
+
+  function show(i){
+    if(i < 0) i = 0;
+    if(i > total - 1) i = total - 1;
+    // 逐一清除而非只清 cur，避免任何狀態不同步時殘留兩頁疊加
+    for(var k = 0; k < total; k++){
+      slides[k].classList.toggle('on', k === i);
+    }
+    cur = i;
+    syncFooter(slides[i]);
+  }
+
+  // 把當頁的層級標籤與頁碼鏡射到固定頁尾，讓每頁共用同一條頁尾
+  var footerTag = document.getElementById('footerTag');
+  var footerNo = document.getElementById('footerNo');
+  function syncFooter(slide){
+    var tag = slide.querySelector('.pagetag');
+    var no = slide.querySelector('.pageno');
+    footerTag.textContent = tag ? tag.textContent : '';
+    footerNo.textContent = no ? no.textContent : '';
+  }
+
+  // 分岔頁跳轉用，參數為 1-based 頁碼
+  window.go = function(pageNumber){
+    show(pageNumber - 1);
+  };
+
+  // 開檔時先跑一次，讓頁尾的層級標籤與頁碼在封面就有值
+  show(0);
+
+  document.addEventListener('keydown', function(e){
+    switch(e.key){
+      case 'ArrowRight':
+      case 'PageDown':
+      case ' ':
+        e.preventDefault(); show(cur + 1); break;
+      case 'ArrowLeft':
+      case 'PageUp':
+        e.preventDefault(); show(cur - 1); break;
+      case 'Home':
+        e.preventDefault(); show(0); break;
+      case 'End':
+        e.preventDefault(); show(total - 1); break;
+      case 'f':
+      case 'F':
+        e.preventDefault();
+        if(document.fullscreenElement){
+          document.exitFullscreen();
+        } else {
+          document.documentElement.requestFullscreen();
+        }
+        break;
+      case 'd':
+      case 'D':
+        e.preventDefault(); window.toggleTheme(); break;
+    }
+  });
+})();
+</script>
+
+</body>
+</html>

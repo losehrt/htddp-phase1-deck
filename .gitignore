@@ -1,0 +1,14 @@
+# 白名單策略：預設排除全部，只放行要發佈的檔案。
+# 用排除法而非列舉法，是為了確保新增的工具檔案不會因為忘了加規則而外流。
+*
+
+# 放行項目
+!.gitignore
+!index.html
+!README.md
+
+# 以下為明確不得進入版控的內容，即使日後改用列舉法也保留這份紀錄：
+#   .claude/ .opencode/ .agents/   AI 工具設定
+#   CLAUDE.md AGENTS.md            AI 工具指示
+#   openspec/ .spectra.yaml .spectra/   規格與變更提案
+#   deck/簡報前檢查.md              講者備答資料，含未公開數字與內容紅線
