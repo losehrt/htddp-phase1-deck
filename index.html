@@ -285,6 +285,16 @@ a.demo:hover{border-bottom-color:var(--accent)}
 .flow-line i{color:var(--accent);font-style:normal;opacity:.75;margin:0 .15em}
 
 /* 加好友 QR */
+/* 連結旁的小 QR，供長官當場用手機掃碼開啟。data-host 供產生對外版時判斷去留 */
+/* 快速層空間充裕，QR 放大方便投影時掃描 */
+.evidence .qr-mini{width:calc(112 * var(--u))}
+.qr-mini{
+  width:calc(78 * var(--u));height:auto;
+  background:#fff;padding:.25em;border-radius:4px;
+  border:1px solid var(--line);
+  display:block;flex-shrink:0;
+  image-rendering:pixelated;
+}
 .qr-row{display:flex;align-items:center;gap:1vw;margin-top:.9vh}
 .qr-row img{
   width:calc(132 * var(--u));height:auto;
@@ -544,7 +554,7 @@ td.state{color:var(--dim)}
     <div class="linkrow">
       <span class="nolink">院內入口</span>
       <span class="badge b-lan">院內限定</span>
-    </div>
+      </div>
   </div>
   <div class="pagetag">快速層</div>
   <div class="pageno">3 / 19</div>
@@ -564,7 +574,8 @@ td.state{color:var(--dim)}
     <div class="linkrow">
       <a class="demo" href="https://fhirlinebot.turbos.tw/" target="_blank" rel="noopener">https://fhirlinebot.turbos.tw/</a>
       <span class="badge b-open">可直接開啟</span>
-    </div>
+      <img class="qr-mini" data-host="public" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIQAAACEAQAAAAB5P74KAAAA+klEQVR42s2WwQ3DMAwDhS6g/bfkBipPRj59FeajdZFACRCCJiW6NR9L9eM3VdU9XaUt9arP9c2bmh6DiN+W9zim05KvLSMc785UcpyW2aR8EGWkp7zFWb/OivxiYbx0OuEWR8gMAEXAp4AwGTWOdcBHq7Bx3IsBH4sDUC1SoM9wY2cej0DnOt1cBy/wvXSkHgADfSzLhkaHfERsLBWiI+hnd+DaXp3w4XsPOiAM/L3vRWrg2sbZPR8I2S5E6qAPWcYgy6YV5o+7x/53h+cFsbqnTzAXm88DKT8py3l2NbOah+fOcFulE33gIYYs8B2/5plXZefF//xveQPugwuEtv9XBgAAAABJRU5ErkJggg==" alt="掃碼開啟 https://fhirlinebot.turbos.tw/">
+        </div>
   </div>
   <div class="pagetag">快速層</div>
   <div class="pageno">4 / 19</div>
@@ -584,7 +595,7 @@ td.state{color:var(--dim)}
     <div class="linkrow">
       <span class="nolink">院內服務入口</span>
       <span class="badge b-lan">院內限定</span>
-    </div>
+      </div>
   </div>
   <div class="pagetag">快速層</div>
   <div class="pageno">5 / 19</div>
@@ -653,7 +664,7 @@ td.state{color:var(--dim)}
     <div class="linkrow">
       <span class="nolink">院內入口</span>
       <span class="badge b-lan">院內限定</span>
-    </div>
+      </div>
   </div>
   <div class="pagetag">快速層</div>
   <div class="pageno">8 / 19</div>
@@ -675,7 +686,7 @@ td.state{color:var(--dim)}
       <span class="nolink">院內入口</span>
       <span class="badge b-lan">院內限定</span>
       <span class="badge b-stage">初期導入</span>
-    </div>
+      </div>
     <div class="est">
       <span class="est-tag">第二階段</span>
       webchat 將接入 <strong>AI 代理人</strong>，同仁在對話中 @ 一下即可交辦查詢與整理，運算仍在院內算力上完成。
@@ -794,12 +805,12 @@ td.state{color:var(--dim)}
         <div class="linkrow" style="margin-top:0">
           <span class="nolink">院內入口</span>
           <span class="badge b-lan">院內限定</span>
-        </div>
+          </div>
         <div style="margin-top:.6vh;color:var(--dim);font-size:.85em">即時看板，未登入預設遮蔽個資</div>
         <div class="linkrow" style="margin-top:1.4vh">
           <span class="nolink">院內入口</span>
           <span class="badge b-lan">院內限定</span>
-        </div>
+          </div>
         <div style="margin-top:.6vh;color:var(--dim);font-size:.85em">統計分析，全為聚合圖表，無個資</div>
       </div>
     </div>
@@ -861,6 +872,7 @@ td.state{color:var(--dim)}
         <div class="linkrow" style="margin-top:0">
           <a class="demo" href="https://fhirlinebot.turbos.tw/" target="_blank" rel="noopener">fhirlinebot.turbos.tw</a>
           <span class="badge b-open">可直接開啟</span>
+          <img class="qr-mini" data-host="public" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIQAAACEAQAAAAB5P74KAAAA+klEQVR42s2WwQ3DMAwDhS6g/bfkBipPRj59FeajdZFACRCCJiW6NR9L9eM3VdU9XaUt9arP9c2bmh6DiN+W9zim05KvLSMc785UcpyW2aR8EGWkp7zFWb/OivxiYbx0OuEWR8gMAEXAp4AwGTWOdcBHq7Bx3IsBH4sDUC1SoM9wY2cej0DnOt1cBy/wvXSkHgADfSzLhkaHfERsLBWiI+hnd+DaXp3w4XsPOiAM/L3vRWrg2sbZPR8I2S5E6qAPWcYgy6YV5o+7x/53h+cFsbqnTzAXm88DKT8py3l2NbOah+fOcFulE33gIYYs8B2/5plXZefF//xveQPugwuEtv9XBgAAAABJRU5ErkJggg==" alt="掃碼開啟 https://fhirlinebot.turbos.tw/">
         </div>
         <div class="qr-row">
           <img src="data:image/png;base64,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" alt="火線超人 LINE 官方帳號加好友 QR code">
@@ -924,7 +936,7 @@ td.state{color:var(--dim)}
           <span class="nolink">院內服務入口</span>
           <span class="badge b-lan">院內限定</span>
           <span class="badge b-stage">導入初期</span>
-        </div>
+          </div>
         <div style="margin-top:1.2vh;color:var(--dim);font-size:.85em">算力與模型已就緒，臨床 AI 助手是第一個落地的應用，第二階段的重點是擴大使用場域。</div>
       </div>
     </div>
@@ -1086,10 +1098,11 @@ td.state{color:var(--dim)}
         <div class="linkrow" style="margin-top:0">
           <span class="nolink">院內入口</span>
           <span class="badge b-lan">院內限定</span>
-        </div>
+          </div>
         <div class="linkrow">
           <a class="demo" href="https://802.mnd.gov.tw" target="_blank" rel="noopener">https://802.mnd.gov.tw</a>
           <span class="badge b-open">可直接開啟</span>
+          <img class="qr-mini" data-host="public" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHQAAAB0AQAAAAB84SuKAAAAvklEQVR42sVVyQ3EMBBCaWD675IOWBjnk1ckVtq1ImX8YA6MMfRYxM/3AEaY2YAXnuttD400Y+gkaPCGgs6RoMS7eX2Dz/w1Xvk4KufHcpfyHf9Z/rmBnGfXP0gnsBiq+qSJ20kqPDO8a4/zNHiDbxGqxCOV0ep35j4CseKf4X9CH9v6QZ9jaPS/DOwVVqu/00Wlv+M/OhlK/TKXt6y/918R8KD1D2odlDV+7YO1/8TWwen9x+1bQGr953/v1wdnj6FPL8v8vAAAAABJRU5ErkJggg==" alt="掃碼開啟 https://802.mnd.gov.tw">
         </div>
         <div class="est">
           <span class="est-tag">效益推估</span>
@@ -1137,7 +1150,7 @@ td.state{color:var(--dim)}
         <div class="linkrow" style="margin-top:0">
           <span class="nolink">院內入口</span>
           <span class="badge b-lan">院內限定</span>
-        </div>
+          </div>
         <div style="margin-top:1.2vh;color:var(--dim);font-size:.85em">儀表板全為聚合統計，無個人訊息內容。</div>
         <div class="est">
           <span class="est-tag">現階段</span>
