@@ -361,7 +361,7 @@ a.demo:hover{border-bottom-color:var(--accent)}
 
 /* 表格 */
 table{width:100%;border-collapse:collapse;margin-top:2.2vh;font-size:calc(25 * var(--u))}
-th,td{text-align:left;padding:.75vh 1.1vw;border-bottom:1px solid var(--line);vertical-align:top}
+th,td{text-align:left;padding:.6vh 1.1vw;border-bottom:1px solid var(--line);vertical-align:top}
 th{color:var(--accent);font-weight:650;font-size:calc(19 * var(--u));letter-spacing:.1em}
 td.state{color:var(--dim)}
 
@@ -594,18 +594,18 @@ td.state{color:var(--dim)}
 <section class="slide">
   <div class="eyebrow">成果四　Clinical AI</div>
   <h2>臨床 AI 助手</h2>
-  <div class="claim">AI 把資料整理好，簽名的還是護理師。</div>
+  <div class="claim">資料整理交給 AI，判斷與簽核留給臨床人員。</div>
   <div class="evidence">
     <div class="label">可驗證憑據</div>
     <div class="body">
       <span class="figure">27<span class="unit">項臨床資料工具</span></span>
-      <span class="figure" style="margin-left:1.2em">2<span class="unit">個護理站已上線</span></span>
-      <div style="margin-top:1.2vh"><span class="sent"><strong style="color:var(--accent)">病歷資料不上雲</strong>，以成果三的院內算力產出護理記錄草稿與資料問答，全程不經任何外部服務。</span><span class="sent">摘要可即時<strong style="color:var(--accent)">翻譯為多國語言</strong>，翻譯同樣在院內完成。</span><span class="sent">不提供診斷與用藥建議，草稿一律經<strong style="color:var(--accent)">護理人員簽核</strong>才存入病歷。</span></div>
+      <span class="figure" style="margin-left:1.2em">2<span class="unit">個護理站先行上線</span></span>
+      <div style="margin-top:1.2vh"><span class="sent"><strong style="color:var(--accent)">病歷資料不上雲</strong>，全院臨床人員以院內算力查病歷、產出摘要與記錄草稿，不經任何外部服務。</span><span class="sent">摘要可即時<strong style="color:var(--accent)">翻譯為多國語言</strong>，翻譯同樣在院內完成。</span><span class="sent">不提供診斷與用藥建議，護理記錄草稿一律經<strong style="color:var(--accent)">護理人員簽核</strong>才存入病歷。</span></div>
     </div>
     <div class="linkrow">
-      <span class="nolink">院內護理站可實際操作</span>
+      <span class="nolink">院內臨床端可實際操作</span>
       <span class="badge b-lan">院內限定</span>
-      <span class="badge b-stage">護理站試辦中</span>
+      <span class="badge b-stage">護理站先行</span>
     </div>
   </div>
   <div class="pagetag">快速層</div>
@@ -708,7 +708,7 @@ td.state{color:var(--dim)}
     <button class="card" onclick="go(14)">
       <span class="n">成果四</span>
       <span class="t">臨床 AI 助手</span>
-      <span class="d">病歷不出院，草稿由護理師簽核</span>
+      <span class="d">病歷不出院，AI 整理人簽核</span>
     </button>
     <button class="card muted" onclick="go(15)">
       <span class="n">成果五</span>
@@ -941,7 +941,7 @@ td.state{color:var(--dim)}
   <div class="deep">
     <div class="blk">
       <div class="h">問題背景</div>
-      <div class="c"><span class="sent">護理記錄要從 HIS 多個畫面逐項翻查，再自己組成文字，交班與摘要每一班重來一次。</span><span class="sent">耗時之外，寫出來的完整度也因人而異。</span></div>
+      <div class="c"><span class="sent">要看清楚一位病人，臨床人員得在 HIS 多個畫面之間逐項翻查，再自己組成文字。</span><span class="sent">護理記錄的交班與摘要每一班重來一次，耗時之外完整度也因人而異。</span></div>
     </div>
     <div class="blk">
       <div class="h">做法</div>
@@ -968,7 +968,7 @@ td.state{color:var(--dim)}
             <div class="arch-flow"><b>→</b></div>
           </div>
           <div class="arch-col">
-            <div class="arch-h">護理人員</div>
+            <div class="arch-h">臨床人員</div>
             <div class="arch-i">確認與修改</div>
             <div class="arch-i">簽核後入病歷</div>
             <div class="arch-i">未過稽核需複核</div>
@@ -984,7 +984,7 @@ td.state{color:var(--dim)}
         <li>摘要可<strong style="color:var(--accent)">翻譯為多國語言</strong>，同樣由院內模型完成</li>
         <li>27 項臨床資料工具，涵蓋診斷、傷口、壓瘡、生命徵象與用藥醫令</li>
         <li><strong style="color:var(--accent)">不提供診斷、醫囑、劑量與處置建議</strong>，查不到即回覆沒有，不作推測</li>
-        <li>草稿須經護理人員<strong style="color:var(--accent)">簽核才存入病歷</strong>，未通過稽核者標記需人工複核</li>
+        <li>護理記錄草稿須經護理人員<strong style="color:var(--accent)">簽核才存入病歷</strong>，未過稽核者標記需複核</li>
         <li>僅允許唯讀查詢，姓名遮罩，執行軌跡可逐筆調閱</li>
       </ul></div>
     </div>
@@ -992,13 +992,13 @@ td.state{color:var(--dim)}
       <div class="h">存取方式</div>
       <div class="c">
         <div class="linkrow" style="margin-top:0">
-          <span class="nolink">院內護理站可實際操作</span>
+          <span class="nolink">院內臨床端可實際操作</span>
           <span class="badge b-lan">院內限定</span>
         </div>
-        <div style="margin-top:1.2vh;color:var(--dim);font-size:.85em">已安裝於兩個護理站逾 20 台電腦。模型與算力沿用成果三，未另建一套。</div>
+        <div style="margin-top:1.2vh;color:var(--dim);font-size:.85em">全院臨床人員均可使用，現以兩個護理站逾 20 台電腦先行。模型與算力沿用成果三，未另建一套。</div>
         <div class="est">
           <span class="est-tag">第二階段</span>
-          先在護理站把流程走順，再擴大場域並延伸至其他職類。
+          先在護理站把流程走順，再擴大到其他臨床場域。
         </div>
       </div>
     </div>
@@ -1175,8 +1175,8 @@ td.state{color:var(--dim)}
       </tr>
       <tr>
         <td>臨床 AI 助手</td>
-        <td>護理站試辦中，2 站逾 20 台電腦</td>
-        <td class="state">院內護理站可實際操作，草稿需簽核</td>
+        <td>全院臨床人員可用，2 個護理站先行</td>
+        <td class="state">院內臨床端可實際操作，草稿需簽核</td>
       </tr>
       <tr>
         <td>智慧醫療資訊平台</td>
