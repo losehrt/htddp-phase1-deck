@@ -417,6 +417,43 @@ td.state{color:var(--dim)}
 /* 極窄螢幕捨去計畫名，院徽與院名一律保留 */
 @media (max-width:430px){ .f-prog,.f-bar{display:none} }
 
+/* 觸控翻頁鈕。沒有鍵盤的裝置需要一個看得見的入口，滑動手勢沒人會主動去猜。
+   置於底部兩角而非畫面左右緣，避免蓋住分岔頁的可點卡片與內文連結。
+   尺寸用固定像素不隨 --u 縮放，因為這是操作元件不是內容，太小會按不到。 */
+.nav-btn{
+  position:fixed;bottom:52px;z-index:11;
+  display:none;align-items:center;justify-content:center;
+  width:46px;height:46px;
+  border:1px solid var(--line);border-radius:50%;
+  background:var(--panel);color:var(--dim);
+  font:inherit;font-size:26px;line-height:1;
+  padding:0 0 3px;cursor:pointer;opacity:.55;
+  -webkit-tap-highlight-color:transparent;
+}
+.nav-btn:disabled{opacity:.12}
+.nav-btn:active:not(:disabled){opacity:1;border-color:var(--accent);color:var(--accent)}
+.hint-touch{display:none}
+@media (hover:none) and (pointer:coarse){
+  .hint-pointer{display:none}
+  .hint-touch{display:inline}
+}
+.nav-prev{left:6vw}
+.nav-next{right:6vw}
+/* 只在沒有滑鼠的裝置顯示，桌機仍以方向鍵為主 */
+@media (hover:none) and (pointer:coarse){
+  .nav-btn{display:flex}
+  /* 封面底部那行絕對定位的資訊要讓開翻頁鈕，否則會疊在一起 */
+  .cover .meta{bottom:118px}
+}
+/* 橫向手機高度很短，內容會一路延伸到接近底部，沒有空間騰出一條留白帶。
+   改把翻頁鈕縮小停進頁尾中央的空白處，那裡本來就不放內容。 */
+@media (hover:none) and (pointer:coarse) and (max-height:500px){
+  .nav-btn{width:34px;height:34px;font-size:19px;bottom:1.1vh;padding:0 0 2px}
+  .nav-prev{left:50%;right:auto;margin-left:-40px}
+  .nav-next{left:50%;right:auto;margin-left:6px}
+  .cover .meta{bottom:8vh}
+}
+
 /* 日夜切換 */
 .theme-toggle{
   pointer-events:auto;flex-shrink:0;
@@ -432,6 +469,10 @@ td.state{color:var(--dim)}
 </style>
 </head>
 <body>
+
+<!-- 觸控翻頁鈕，僅在無滑鼠裝置顯示 -->
+<button class="nav-btn nav-prev" id="navPrev" onclick="step(-1)" aria-label="上一頁">‹</button>
+<button class="nav-btn nav-next" id="navNext" onclick="step(1)" aria-label="下一頁">›</button>
 
 <!-- 頁尾：院徽、院名、計畫名，每頁固定顯示。層級標籤與頁碼由 show() 自各頁鏡射過來。 -->
 <footer class="deck-footer">
@@ -458,7 +499,8 @@ td.state{color:var(--dim)}
   <div class="meta">
     <span>六項成果概覽</span>
     <span>對外版　院內系統入口未列出</span>
-    <span>方向鍵翻頁　F 鍵全螢幕　D 鍵切換日夜版</span>
+    <span class="hint-pointer">方向鍵翻頁　F 鍵全螢幕　D 鍵切換日夜版</span>
+    <span class="hint-touch">左右滑動，或點翻頁鈕</span>
   </div>
   <div class="pageno">1 / 17</div>
 </section>
@@ -1099,7 +1141,17 @@ td.state{color:var(--dim)}
     }
     cur = i;
     syncFooter(slides[i]);
+    if(navPrev) navPrev.disabled = (i === 0);
+    if(navNext) navNext.disabled = (i === total - 1);
   }
+
+  var navPrev = document.getElementById('navPrev');
+  var navNext = document.getElementById('navNext');
+
+  // 相對翻頁，供觸控鈕使用
+  window.step = function(delta){
+    show(cur + delta);
+  };
 
   // 把當頁的層級標籤與頁碼鏡射到固定頁尾，讓每頁共用同一條頁尾
   var footerTag = document.getElementById('footerTag');
@@ -1118,6 +1170,31 @@ td.state{color:var(--dim)}
 
   // 開檔時先跑一次，讓頁尾的層級標籤與頁碼在封面就有值
   show(0);
+
+  // 滑動翻頁。門檻設計的目的是不要誤觸：
+  //   位移需超過 45px，才不會把點擊卡片或連結誤判為翻頁
+  //   水平位移需明顯大於垂直，才不會把上下滑動當成翻頁
+  //   限時 800ms 內完成，避免長按拖曳後放開也翻頁
+  var tStartX = 0, tStartY = 0, tStartAt = 0;
+  document.addEventListener('touchstart', function(e){
+    if(e.touches.length !== 1){ tStartAt = 0; return; }
+    tStartX = e.touches[0].clientX;
+    tStartY = e.touches[0].clientY;
+    tStartAt = Date.now();
+  }, {passive:true});
+
+  document.addEventListener('touchend', function(e){
+    if(!tStartAt) return;
+    var t = e.changedTouches[0];
+    var dx = t.clientX - tStartX;
+    var dy = t.clientY - tStartY;
+    var dt = Date.now() - tStartAt;
+    tStartAt = 0;
+    if(dt > 800) return;
+    if(Math.abs(dx) < 45) return;
+    if(Math.abs(dx) < Math.abs(dy) * 1.5) return;
+    show(dx < 0 ? cur + 1 : cur - 1);
+  }, {passive:true});
 
   document.addEventListener('keydown', function(e){
     switch(e.key){
