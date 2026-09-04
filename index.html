@@ -680,13 +680,13 @@ td.state{color:var(--dim)}
 <section class="slide">
   <div class="eyebrow">成果七　Message Hub</div>
   <h2>院內訊息中樞</h2>
-  <div class="claim">訊息發出去，還要確認醫師真的處置了。</div>
+  <div class="claim">簡訊與 Email 點開就能回覆，不必回撥。</div>
   <div class="evidence">
     <div class="label">可驗證憑據</div>
     <div class="body">
       <span class="figure">全院<span class="unit">員工涵蓋</span></span>
       <span class="figure" style="margin-left:1.2em">36<span class="unit">個部門本月觸及</span></span>
-      <div style="margin-top:1.2vh"><span class="sent">公告、危檢值、異常三類分軌追蹤。</span><span class="sent">已整合 <strong style="color:var(--accent)">HIS trigger</strong> 可由檢驗系統直接觸發，並內建 <strong style="color:var(--accent)">webchat</strong>，院內訊息與檔案交換不經外部通訊軟體。</span></div>
+      <div style="margin-top:1.2vh"><span class="sent">醫院長期的難題是簡訊發得出去、回覆收不回來。</span><span class="sent">訊息內含<strong style="color:var(--accent)">一次性連結</strong>，兩種管道皆可直接點開，用罐頭回覆即完成處置，不必登入系統，<strong style="color:var(--warn)">惟需有網路</strong>。</span><span class="sent">公告、危檢值、異常三類分軌追蹤，已整合 <strong style="color:var(--accent)">HIS trigger</strong>，並內建 <strong style="color:var(--accent)">webchat</strong> 供院內訊息與檔案交換。</span></div>
     </div>
     <div class="linkrow">
       <span class="nolink">院內入口</span>
@@ -1133,7 +1133,7 @@ td.state{color:var(--dim)}
     </div>
     <div class="blk">
       <div class="h">做法</div>
-      <div class="c">簡訊與 Email 雙管道送達，訊息內含<strong style="color:var(--accent)">一次性連結</strong>，醫師點開即可用罐頭回覆完成確認與處置，逾 24 小時未回覆自動再提醒一次。資料流全程經 <strong style="color:var(--accent)">Kafka 隔離</strong>，外部無路徑可直接觸及院內系統。另建 webchat 供同仁即時交換訊息與檔案，全程留在院內。
+      <div class="c">簡訊與 Email 雙管道送達，訊息內含<strong style="color:var(--accent)">一次性連結</strong>，兩種管道皆可直接點開，醫師用罐頭回覆即完成確認與處置，<strong style="color:var(--warn)">惟需有網路</strong>；逾 24 小時未回覆自動再提醒一次。資料流全程經 <strong style="color:var(--accent)">Kafka 隔離</strong>，外部無路徑可直接觸及院內系統。另建 webchat 供同仁即時交換訊息與檔案，全程留在院內。
         <div class="flows">
           <div class="flow-line"><b>送達</b>簡訊＋Email<i>→</i>一次性連結</div>
           <div class="flow-line"><b>回覆</b>罐頭回覆<i>→</i>處置確認</div>
