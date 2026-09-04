@@ -640,7 +640,7 @@ td.state{color:var(--dim)}
 
 <!-- 7 快速層：官網與院務系統 -->
 <section class="slide">
-  <div class="eyebrow">成果六　官網 ＆ 逐字稿</div>
+  <div class="eyebrow">成果六　官網 ＆ 院務平台</div>
   <h2>官網與院務系統</h2>
   <div class="claim">會議結束三分鐘，逐字稿與摘要就在手上。</div>
   <div class="evidence">
@@ -648,7 +648,7 @@ td.state{color:var(--dim)}
     <div class="body">
       <span class="figure">3<span class="unit">分鐘產出</span></span>
       <span class="figure" style="margin-left:1.2em">20<span class="unit">倍效率</span></span>
-      <div style="margin-top:1.2vh"><span class="sent">一小時會議錄音原需一小時以上聽打與整理，現由<strong style="color:var(--accent)">地端 ASR 與 LLM</strong> 在三分鐘內完成，自動輸出 PDF 與 Word。</span><span class="sent">官網 3 月全新改版後重新計數，半年累計 <strong style="color:var(--accent)">213 萬次瀏覽</strong>，採前後台分離架構。</span></div>
+      <div style="margin-top:1.2vh"><span class="sent">一小時會議錄音原需一小時以上聽打與整理，現由<strong style="color:var(--accent)">地端 ASR 與 LLM</strong> 在三分鐘內完成，自動輸出 PDF 與 Word。</span><span class="sent">內部入口以<strong style="color:var(--accent)">模組化引擎</strong>自建，十三個院務模組共用同一套權限與稽核。</span><span class="sent">官網 3 月全新改版後重新計數，半年累計 <strong style="color:var(--accent)">213 萬次瀏覽</strong>，採前後台分離架構。</span></div>
     </div>
     <div class="linkrow">
       <span class="nolink">院內入口</span>
@@ -718,7 +718,7 @@ td.state{color:var(--dim)}
     <button class="card" onclick="go(16)">
       <span class="n">成果六</span>
       <span class="t">官網與院務系統</span>
-      <span class="d">會議記錄 3 分鐘產出，官網與入口網改版</span>
+      <span class="d">會議記錄 3 分鐘產出，院務模組化平台</span>
     </button>
     <button class="card" onclick="go(17)">
       <span class="n">成果七</span>
@@ -1062,21 +1062,22 @@ td.state{color:var(--dim)}
   <div class="deep">
     <div class="blk">
       <div class="h">問題背景</div>
-      <div class="c"><span class="sent">一小時的會議錄音，人工聽打加整理摘要至少要再花一小時，記錄產出慢且品質不一。</span><span class="sent">對外官網與對內系統入口也分散，同仁需記憶多組位址與帳號。</span></div>
+      <div class="c"><span class="sent">一小時的會議錄音，人工聽打加整理摘要至少要再花一小時，記錄產出慢且品質不一。</span><span class="sent">院務系統各自為政，每有新需求就多買或多建一套，帳號、權限與稽核也各自一套。</span></div>
     </div>
     <div class="blk">
       <div class="h">做法</div>
-      <div class="c"><span class="sent">導入<strong style="color:var(--accent)">地端 ASR 與 LLM</strong>，會議結束三分鐘內產出逐字稿與摘要，自動輸出 PDF 與 Word，語音不送出院外。</span><span class="sent">官網採<strong style="color:var(--accent)">前後台分離</strong>部署，對外僅開放必要服務，外部無法回連內部。</span></div>
+      <div class="c"><span class="sent">導入<strong style="color:var(--accent)">地端 ASR 與 LLM</strong>，會議結束三分鐘內產出逐字稿與摘要，自動輸出 PDF 與 Word，語音不送出院外。</span><span class="sent">內部入口以<strong style="color:var(--accent)">模組化引擎</strong>自建，各院務系統是同一套引擎上的模組，共用權限、稽核與資料層。</span><span class="sent">官網採<strong style="color:var(--accent)">前後台分離</strong>部署，對外僅開放必要服務，外部無法回連內部。</span></div>
     </div>
     <div class="blk">
       <div class="h">可驗證產出</div>
       <div class="c"><ul>
-        <li>會議記錄處理時間由 <strong style="color:var(--accent)">60 分鐘以上降至 3 分鐘</strong>，縮短 95%</li>
+        <li>會議記錄由 <strong style="color:var(--accent)">60 分鐘以上降至 3 分鐘</strong>，縮短 95%</li>
         <li>逐字稿與摘要自動輸出 PDF 與 Word，無需人工排版</li>
-        <li>官網 3 月全新改版後重新計數，半年累計 <strong style="color:var(--accent)">213 萬次瀏覽、77 萬訪客</strong>，1,120 篇文章已發布</li>
-        <li>開放民眾<strong style="color:var(--accent)">訂閱通知</strong>，停診、醫訊等最新消息主動推播，不必自己回來查</li>
-        <li>內部入口網整合 webmail、差勤薪資、教學平台、雲端服務等多套系統，並納管 7 間會議室預約</li>
-        <li>會議場景整合架構已備：文件存地端 S3 bucket、電子紙檢視、手寫註記回存，<span style="color:var(--warn)">尚未上線</span></li>
+        <li>官網 3 月改版後半年累計 <strong style="color:var(--accent)">213 萬次瀏覽</strong>、77 萬訪客</li>
+        <li>開放民眾<strong style="color:var(--accent)">訂閱通知</strong>，停診與醫訊主動推播</li>
+        <li>院務系統以<strong style="color:var(--accent)">同一套引擎自建十三個模組</strong>，含公文追蹤、會議室預約、訊息中心、資產出借、檔案管理等</li>
+        <li>另整合 webmail、差勤薪資等既有系統，同仁單一入口進入</li>
+        <li>會議場景整合已備：文件存地端 S3、電子紙檢視與手寫回存，<span style="color:var(--warn)">尚未上線</span></li>
       </ul></div>
     </div>
     <div class="blk">
@@ -1185,7 +1186,7 @@ td.state{color:var(--dim)}
       </tr>
       <tr>
         <td>官網與院務系統</td>
-        <td>會議記錄 3 分鐘產出，官網前後分離上線</td>
+        <td>會議記錄 3 分鐘產出，院務平台十三模組</td>
         <td class="state">官網對外公開，入口網於院內查核</td>
       </tr>
       <tr>
