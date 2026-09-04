@@ -196,6 +196,10 @@ a.demo:hover{border-bottom-color:var(--accent)}
 .arch.arch3{grid-template-columns:1fr auto 1fr auto 1fr;gap:.45vw}
 /* 支柱並列，欄與欄之間不放連接元素，避免被讀成成對關係或資料流向 */
 .arch.pillars{grid-template-columns:repeat(3,1fr);gap:.9vw}
+/* 支柱名稱是這頁的主體而非流程圖上的欄位標籤，字級放大、字距收回 */
+.arch.pillars .arch-h{font-size:calc(30 * var(--u));letter-spacing:.02em;margin-bottom:.5em}
+.arch.pillars .arch-i{font-size:calc(22 * var(--u));line-height:1.5}
+.arch.pillars .arch-col{padding:1.8vh 1.1vw}
 .arch.arch3 .arch-mid{min-width:3.6em}
 .arch.arch3 .arch-col{padding:1.2vh .6vw}
 .arch-col{
@@ -1223,21 +1227,24 @@ td.state{color:var(--dim)}
   <div class="arch pillars" style="margin-top:2.4vh">
     <div class="arch-col hosp">
       <div class="arch-h">HIS 核心資料庫</div>
-      <div class="arch-i">醫囑、檢驗</div>
-      <div class="arch-i">生命徵象</div>
-      <div class="arch-i">成果四唯讀取數</div>
+      <div class="arch-i">結構化臨床與交易資料</div>
+      <div class="arch-i">醫囑、檢驗、生命徵象</div>
+      <div class="arch-i">診斷、傷口、壓瘡、用藥</div>
+      <div class="arch-i">成果四以唯讀查詢取數</div>
     </div>
     <div class="arch-col hosp">
       <div class="arch-h">FHIR 中臺</div>
       <div class="arch-i">標準化臨床語意</div>
       <div class="arch-i">R4 資源</div>
+      <div class="arch-i">跨院交換介面</div>
       <div class="arch-i">成果二跨院取病歷</div>
     </div>
     <div class="arch-col hosp">
       <div class="arch-h">地端自建 S3</div>
-      <div class="arch-i">同意書、ISO 四階文件</div>
-      <div class="arch-i">會議記錄、電子紙回存</div>
-      <div class="arch-i">成果五存放文件</div>
+      <div class="arch-i">資料以外的所有檔案</div>
+      <div class="arch-i">同意書、ISO 文件、會議記錄</div>
+      <div class="arch-i">圖片、影像、錄音錄影</div>
+      <div class="arch-i">成果五已存放文件</div>
     </div>
   </div>
   <div class="arch-key" style="margin-top:1.6vh"><span class="sent">三根支柱都已在運作，七項成果分別在上面取數、交換與存放。</span></div>
