@@ -194,6 +194,8 @@ a.demo:hover{border-bottom-color:var(--accent)}
 .arch{display:grid;grid-template-columns:1fr auto 1fr;gap:.7vw;align-items:stretch;margin-top:.4vh}
 /* 三段式流程用，中間兩個箭頭欄比兩段式窄，避免五欄擠在一起 */
 .arch.arch3{grid-template-columns:1fr auto 1fr auto 1fr;gap:.45vw}
+/* 支柱並列，欄與欄之間不放連接元素，避免被讀成成對關係或資料流向 */
+.arch.pillars{grid-template-columns:repeat(3,1fr);gap:.9vw}
 .arch.arch3 .arch-mid{min-width:3.6em}
 .arch.arch3 .arch-col{padding:1.2vh .6vw}
 .arch-col{
@@ -512,7 +514,7 @@ td.state{color:var(--dim)}
     <span class="hint-pointer">方向鍵翻頁　F 鍵全螢幕　D 鍵切換日夜版</span>
     <span class="hint-touch">左右滑動，或點翻頁鈕</span>
   </div>
-  <div class="pageno">1 / 19</div>
+  <div class="pageno">1 / 20</div>
 </section>
 
 <!-- 2 問題框架 -->
@@ -532,7 +534,7 @@ td.state{color:var(--dim)}
     </div>
   </div>
   <div class="pagetag">問題框架</div>
-  <div class="pageno">2 / 19</div>
+  <div class="pageno">2 / 20</div>
 </section>
 
 <!-- 3 快速層：緊急救護即時看板 -->
@@ -557,7 +559,7 @@ td.state{color:var(--dim)}
       </div>
   </div>
   <div class="pagetag">快速層</div>
-  <div class="pageno">3 / 19</div>
+  <div class="pageno">3 / 20</div>
 </section>
 
 <!-- 4 快速層：火線超人 -->
@@ -578,7 +580,7 @@ td.state{color:var(--dim)}
         </div>
   </div>
   <div class="pagetag">快速層</div>
-  <div class="pageno">4 / 19</div>
+  <div class="pageno">4 / 20</div>
 </section>
 
 <!-- 5 快速層：地端主權 AI -->
@@ -598,7 +600,7 @@ td.state{color:var(--dim)}
       </div>
   </div>
   <div class="pagetag">快速層</div>
-  <div class="pageno">5 / 19</div>
+  <div class="pageno">5 / 20</div>
 </section>
 
 <!-- 6 快速層：臨床 AI 助手 -->
@@ -620,7 +622,7 @@ td.state{color:var(--dim)}
     </div>
   </div>
   <div class="pagetag">快速層</div>
-  <div class="pageno">6 / 19</div>
+  <div class="pageno">6 / 20</div>
 </section>
 
 <!-- 6 快速層：智慧醫療資訊平台 -->
@@ -646,7 +648,7 @@ td.state{color:var(--dim)}
     </div>
   </div>
   <div class="pagetag">快速層</div>
-  <div class="pageno">7 / 19</div>
+  <div class="pageno">7 / 20</div>
 </section>
 
 <!-- 7 快速層：官網與院務系統 -->
@@ -667,7 +669,7 @@ td.state{color:var(--dim)}
       </div>
   </div>
   <div class="pagetag">快速層</div>
-  <div class="pageno">8 / 19</div>
+  <div class="pageno">8 / 20</div>
 </section>
 
 <!-- 8 快速層：院內訊息中樞 -->
@@ -693,7 +695,7 @@ td.state{color:var(--dim)}
     </div>
   </div>
   <div class="pagetag">快速層</div>
-  <div class="pageno">9 / 19</div>
+  <div class="pageno">9 / 20</div>
 </section>
 
 <!-- 9 分岔頁 -->
@@ -739,7 +741,7 @@ td.state{color:var(--dim)}
   </div>
   <div class="branch-hint">點選任一項進入細節，或直接按方向鍵依序往下。</div>
   <div class="pagetag">分岔</div>
-  <div class="pageno">10 / 19</div>
+  <div class="pageno">10 / 20</div>
 </section>
 
 <!-- 10 深講：緊急救護即時看板 -->
@@ -816,7 +818,7 @@ td.state{color:var(--dim)}
     </div>
   </div>
   <div class="pagetag">深講層</div>
-  <div class="pageno">11 / 19</div>
+  <div class="pageno">11 / 20</div>
 </section>
 
 <!-- 11 深講：火線超人 -->
@@ -882,7 +884,7 @@ td.state{color:var(--dim)}
     </div>
   </div>
   <div class="pagetag">深講層</div>
-  <div class="pageno">12 / 19</div>
+  <div class="pageno">12 / 20</div>
 </section>
 
 <!-- 12 深講：地端主權 AI -->
@@ -942,7 +944,7 @@ td.state{color:var(--dim)}
     </div>
   </div>
   <div class="pagetag">深講層</div>
-  <div class="pageno">13 / 19</div>
+  <div class="pageno">13 / 20</div>
 </section>
 
 <!-- 14 深講：臨床 AI 助手 -->
@@ -1016,7 +1018,7 @@ td.state{color:var(--dim)}
     </div>
   </div>
   <div class="pagetag">深講層</div>
-  <div class="pageno">14 / 19</div>
+  <div class="pageno">14 / 20</div>
 </section>
 
 <!-- 13 深講：智慧醫療資訊平台 -->
@@ -1063,7 +1065,7 @@ td.state{color:var(--dim)}
     </div>
   </div>
   <div class="pagetag">深講層</div>
-  <div class="pageno">15 / 19</div>
+  <div class="pageno">15 / 20</div>
 </section>
 
 <!-- 14 深講：官網與院務系統 -->
@@ -1112,7 +1114,7 @@ td.state{color:var(--dim)}
     </div>
   </div>
   <div class="pagetag">深講層</div>
-  <div class="pageno">16 / 19</div>
+  <div class="pageno">16 / 20</div>
 </section>
 
 <!-- 15 深講：院內訊息中樞 -->
@@ -1160,7 +1162,7 @@ td.state{color:var(--dim)}
     </div>
   </div>
   <div class="pagetag">深講層</div>
-  <div class="pageno">17 / 19</div>
+  <div class="pageno">17 / 20</div>
 </section>
 
 <!-- 16 投入對照產出 -->
@@ -1210,7 +1212,42 @@ td.state{color:var(--dim)}
     </tbody>
   </table>
   <div class="branch-hint" style="margin-top:1.6vh">火線超人與官網為對外公開服務；其餘各項位於院內網路，本版不列出入口位址。</div>
-  <div class="pageno">18 / 19</div>
+  <div class="pageno">18 / 20</div>
+</section>
+
+<!-- 19 資料基礎建設 -->
+<section class="slide">
+  <div class="eyebrow">資料基礎建設</div>
+  <h2>三大支柱</h2>
+  <div class="claim">七項成果寫進同一組支柱，第二階段的 AI agent 才有得分析。</div>
+  <div class="arch pillars" style="margin-top:2.4vh">
+    <div class="arch-col hosp">
+      <div class="arch-h">HIS 核心資料庫</div>
+      <div class="arch-i">醫囑、檢驗</div>
+      <div class="arch-i">生命徵象</div>
+      <div class="arch-i">成果四唯讀取數</div>
+    </div>
+    <div class="arch-col hosp">
+      <div class="arch-h">FHIR 中臺</div>
+      <div class="arch-i">標準化臨床語意</div>
+      <div class="arch-i">R4 資源</div>
+      <div class="arch-i">成果二跨院取病歷</div>
+    </div>
+    <div class="arch-col hosp">
+      <div class="arch-h">地端自建 S3</div>
+      <div class="arch-i">同意書、ISO 四階文件</div>
+      <div class="arch-i">會議記錄、電子紙回存</div>
+      <div class="arch-i">成果五存放文件</div>
+    </div>
+  </div>
+  <div class="arch-key" style="margin-top:1.6vh"><span class="sent">三根支柱都已在運作，七項成果分別在上面取數、交換與存放。</span></div>
+  <div class="est" style="margin-top:2vh;max-width:none">
+    <span class="est-tag">第二階段</span>
+    <span class="sent">文件識別<strong>將依 FHIR DocumentReference 標準</strong>統一，以 subject 與 domain 對齊三根支柱。</span>
+    <span class="sent">subject 可以是病人，也可以是事件或主題。</span>
+    <span class="sent"><strong>creator 一律留存</strong>，因此沒有病人的資產，仍查得出哪個單位在哪個領域產出了什麼。</span>
+  </div>
+  <div class="pageno">19 / 20</div>
 </section>
 
 <!-- 17 銜接第二階段 -->
@@ -1227,7 +1264,7 @@ td.state{color:var(--dim)}
     </div>
     <div class="modules-note"><span class="sent">十三個模組共用同一套權限、稽核與資料層。</span><span class="sent">第二階段要長出新功能，是加積木，不是重蓋。</span></div>
   </div>
-  <div class="pageno">19 / 19</div>
+  <div class="pageno">20 / 20</div>
 </section>
 
 <script>
