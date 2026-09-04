@@ -600,7 +600,7 @@ td.state{color:var(--dim)}
     <div class="body">
       <span class="figure">27<span class="unit">項臨床資料工具</span></span>
       <span class="figure" style="margin-left:1.2em">2<span class="unit">個護理站已上線</span></span>
-      <div style="margin-top:1.2vh"><span class="sent">以成果三的院內算力讀取 HIS 資料，產出護理記錄草稿與資料問答，已部署於兩個護理站逾 20 台電腦。</span><span class="sent"><strong style="color:var(--accent)">不提供診斷、醫囑與用藥建議</strong>，查不到的資料明確回覆沒有，不以一般醫學知識推測。</span><span class="sent">草稿一律經<strong style="color:var(--accent)">護理人員確認簽核</strong>才存入病歷。</span></div>
+      <div style="margin-top:1.2vh"><span class="sent"><strong style="color:var(--accent)">病歷資料不上雲</strong>，以成果三的院內算力產出護理記錄草稿與資料問答，全程不經任何外部服務。</span><span class="sent">摘要可即時<strong style="color:var(--accent)">翻譯為多國語言</strong>，翻譯同樣在院內完成。</span><span class="sent">不提供診斷與用藥建議，草稿一律經<strong style="color:var(--accent)">護理人員簽核</strong>才存入病歷。</span></div>
     </div>
     <div class="linkrow">
       <span class="nolink">院內護理站可實際操作</span>
@@ -708,7 +708,7 @@ td.state{color:var(--dim)}
     <button class="card" onclick="go(14)">
       <span class="n">成果四</span>
       <span class="t">臨床 AI 助手</span>
-      <span class="d">護理記錄草稿，護理師簽核</span>
+      <span class="d">病歷不出院，草稿由護理師簽核</span>
     </button>
     <button class="card muted" onclick="go(15)">
       <span class="n">成果五</span>
@@ -960,7 +960,7 @@ td.state{color:var(--dim)}
           <div class="arch-col hosp">
             <div class="arch-h">院內模型</div>
             <div class="arch-i">gpt-oss-120b</div>
-            <div class="arch-i">產出記錄草稿</div>
+            <div class="arch-i">草稿與多語翻譯</div>
             <div class="arch-i">逐階段留軌跡</div>
           </div>
           <div class="arch-mid">
@@ -974,17 +974,18 @@ td.state{color:var(--dim)}
             <div class="arch-i">未過稽核需複核</div>
           </div>
         </div>
-        <div class="arch-key"><span class="sent">AI 只做整理，不做判斷。</span><span class="sent">人簽了才算數，草稿不會自己進病歷。</span></div>
+        <div class="arch-key"><span class="sent">病歷不出院，連翻譯都在院內做。</span><span class="sent">AI 只做整理不做判斷，人簽了才算數。</span></div>
       </div>
     </div>
     <div class="blk">
       <div class="h">可驗證產出</div>
       <div class="c"><ul>
-        <li>27 項臨床資料工具，涵蓋診斷、傷口、壓瘡、生命徵象、疼痛評估、GCS、出入量與用藥醫令</li>
-        <li><strong style="color:var(--accent)">不提供診斷、醫囑、劑量與處置建議</strong>，查不到即回覆沒有，不以一般醫學知識推測</li>
+        <li><strong style="color:var(--accent)">病歷與 AI 推論全留在院內</strong>，不經外部雲端服務</li>
+        <li>摘要可<strong style="color:var(--accent)">翻譯為多國語言</strong>，同樣由院內模型完成</li>
+        <li>27 項臨床資料工具，涵蓋診斷、傷口、壓瘡、生命徵象與用藥醫令</li>
+        <li><strong style="color:var(--accent)">不提供診斷、醫囑、劑量與處置建議</strong>，查不到即回覆沒有，不作推測</li>
         <li>草稿須經護理人員<strong style="color:var(--accent)">簽核才存入病歷</strong>，未通過稽核者標記需人工複核</li>
-        <li>資料存取僅允許唯讀查詢，病患姓名於介面遮罩</li>
-        <li>每次執行留存逐階段提示、回應與 token 軌跡，可逐筆調閱</li>
+        <li>僅允許唯讀查詢，姓名遮罩，執行軌跡可逐筆調閱</li>
       </ul></div>
     </div>
     <div class="blk">
