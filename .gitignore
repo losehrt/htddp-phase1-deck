@@ -12,3 +12,5 @@
 #   CLAUDE.md AGENTS.md            AI 工具指示
 #   openspec/ .spectra.yaml .spectra/   規格與變更提案
 #   deck/簡報前檢查.md              講者備答資料，含未公開數字與內容紅線
+.spectra/
+openspec/.vector-search.db*
